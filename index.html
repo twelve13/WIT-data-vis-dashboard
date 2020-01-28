@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>WIT Data Visualization</title>
+		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<header>
+			<div id="title">Washington Improv Theater Annual Reports, 2017-2019</div>
+			<div>By Caroline Chen</div>
+		</header>
+		<main>
+			<div id="instructions">Choose from the options on the left</div>
+			<div id="control-panel">
+				<div class="button-panel">
+					<div class="category">Harold Night</div>
+					<div class="button" id="button1">Harold Teams</div>
+					<div class="button" id="button2">Harold Players</div>
+				</div>
+				<div class="button-panel">
+					<div class="category">Workshops</div>
+					<div class="button" id="button3">Improv for All Workshops</div>
+					<div class="button" id="button4">WIT@Work Workshops</div>
+				</div>
+				<div class="button-panel">
+					<div class="category">Diversity Scholarships</div>
+					<div class="button" id="button5">Scholarship Recipients</div>
+				</div>
+				<div class="button" id="clear-all">Clear all</div>
+			</div>
+			<div class="container" id="data-vis-container"></div>
+		</main>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script>
+			const colorPalette = ["#eb404a", "#ffbf00", "#bccc28", "#4ebba1", "#50f"];
+
+			Highcharts.setOptions({
+				colors: colorPalette
+			})
+
+			const witDataVis = Highcharts.chart('data-vis-container', {
+				chart: {
+					type: 'line',
+					ignoreHiddenSeries: false //prevents axes from automatically rescaling with hidden series
+				},
+				title: {
+					text: "FY17-19 By the Numbers"
+				},
+				legend: {
+					enabled: false //don't show the legend
+				},
+				xAxis: {
+					categories: [
+						"2017",
+						"2018",
+						"2019"
+					]
+				},
+				yAxis: {
+					title: {
+						text: "Quantity"
+					}
+				},
+				series: [{
+					id: "series1",
+					name: "Harold Teams",
+					data: [7, 7, 10]
+				}, {
+					id: "series2",
+					name: "Harold Players",
+					data: [93, 108, 104]
+				},  {
+					id: "series3",
+					name: "Improv for All Workshops",
+					data: [50, 62, 90]
+				}, 
+				{
+					id: "series4",
+					name: "WIT@Work Workshops",
+					data: [60, 60, 79]
+				},
+				{
+					id: "series5",
+					name: "Diversity Scholarship Recipients",
+					data: [0, 17, 13]
+				}]
+			});
+
+			const series = witDataVis.series;
+
+			for(let i=0; i<series.length; i++) {
+				series[i].hide();
+			}
+
+			let series1hidden = true;
+			let series2hidden = true;
+			let series3hidden = true;
+			let series4hidden = true;
+			let series5hidden = true;
+			let series6hidden = true;
+			let series7hidden = true;
+
+			const series1 = witDataVis.get("series1");
+			const series2 = witDataVis.get("series2");
+			const series3 = witDataVis.get("series3");
+			const series4 = witDataVis.get("series4");
+			const series5 = witDataVis.get("series5");
+			const series6 = witDataVis.get("series6");
+			const series7 = witDataVis.get("series7");
+
+			const handleClick = function(serieshidden, series, button, color) {
+				if(serieshidden) {
+					series.show();
+					$(button).css("border-color", color);
+					$(button).css("color", "black");
+				} else {
+					series.hide();
+					$(button).css("border-color", "#737373");
+					$(button).css("color", "#737373");
+				}
+			}
+
+			$("#button1").click(function() {
+				handleClick (series1hidden, series1, "#button1", colorPalette[0]);
+				series1hidden=!series1hidden;
+			})
+
+			$("#button2").click(function() {
+				handleClick (series2hidden, series2, "#button2", colorPalette[1]);
+				series2hidden=!series2hidden;
+			})
+
+			$("#button3").click(function() {
+				handleClick (series3hidden, series3, "#button3", colorPalette[2]);
+				series3hidden=!series3hidden;
+			})
+
+			$("#button4").click(function() {
+				handleClick (series4hidden, series4, "#button4", colorPalette[3]);
+				series4hidden=!series4hidden;
+			})
+
+			$("#button5").click(function() {
+				handleClick (series5hidden, series5, "#button5", colorPalette[4]);
+				series5hidden=!series5hidden;
+			})
+
+			$("#button6").click(function() {
+				handleClick (series6hidden, series6, "#button6", colorPalette[5]);
+				series6hidden=!series6hidden;
+			})
+
+			$("#button7").click(function() {
+				handleClick (series7hidden, series7, "#button7", colorPalette[6]);
+				series7hidden=!series7hidden;
+			})
+
+			$("#clear-all").click(function() {
+				for(let i=0; i<series.length; i++) {
+					series[i].hide();
+				}
+
+				series1hidden = true;
+				series2hidden = true;
+				series3hidden = true;
+				series4hidden = true;
+				series5hidden = true;
+				series6hidden = true;
+				series7hidden = true;
+
+				$(".button").css("border-color", "#737373");
+				$(".button").css("color", "#737373");
+			})
+
+			$(".button").click(function() {
+				$("#instructions").fadeOut(500);
+			})
+		</script>
+	</body>
+</html>
